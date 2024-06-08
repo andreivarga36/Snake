@@ -72,12 +72,12 @@
 
         private void AddSnake()
         {
-            int middleRow = Rows / 2;
+            int r = Rows / 2;
 
-            for (int c = 0; c <= Columns; c++)
+            for (int c = 1; c <= 3; c++)
             {
-                Grid[middleRow, c] = GridValue.Snake;
-                snakePositions.AddFirst(new Position(middleRow, c));
+                Grid[r, c] = GridValue.Snake;
+                snakePositions.AddFirst(new Position(r, c));
             }
         }
 
@@ -97,7 +97,7 @@
 
         private void AddFood()
         {
-            List<Position> emptyPositions = new List<Position>(EmptyPositions());
+            List<Position> emptyPositions = new (EmptyPositions());
 
             if (emptyPositions.Count == 0)
             {
