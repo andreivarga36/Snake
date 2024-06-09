@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.Marshalling;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -22,6 +21,7 @@ namespace Snake
         private readonly int columns = 15;
         private readonly Image[,] gridImages;
         private readonly GameState gamestate;
+        private bool gameRunning;
 
         public MainWindow()
         {
@@ -56,7 +56,7 @@ namespace Snake
         private void Draw()
         {
             DrawGrid();
-            ScoreText.Text = $"{gamestate.Score}";
+            ScoreText.Text = $"SCORE {gamestate.Score}";
         }
 
         private void DrawGrid()
@@ -71,10 +71,26 @@ namespace Snake
             }
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async Task RunGame()
         {
             Draw();
+            Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+        }
+
+        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Overlay.Visibility == Visibility.Visible)
+            {
+                e.Handled = true;
+            }
+
+            if (!gameRunning)
+            {
+                gameRunning = true;
+                await RunGame();
+                gameRunning = false;
+            }
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

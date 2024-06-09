@@ -2,8 +2,9 @@
 {
     public class GameState
     {
-        private readonly LinkedList<Position> snakePositions = new();
+        private readonly LinkedList<Position> snakePositions = new ();
         private readonly Random random = new();
+        private readonly LinkedList<Direction> dirChanges = new ();
 
         public GameState(int rows, int columns)
         {
@@ -45,14 +46,28 @@
 
         public void ChangeDirection(Direction dir)
         {
-            Dir = dir;
+            if (CanChangeDirection(dir))
+            {
+                dirChanges.AddLast(dir);
+            }
         }
 
         public void Move()
         {
+            if (dirChanges.Count > 0)
+            {
+                Dir = dirChanges.First.Value;
+                dirChanges.RemoveFirst();
+            }
+
             Position newHeadPos = HeadPosition().Translate(Dir);
             GridValue hit = WillHit(newHeadPos);
 
+            HandleSnakeMovement(newHeadPos, hit);
+        }
+
+        private void HandleSnakeMovement(Position newHeadPos, GridValue hit)
+        {
             if (hit == GridValue.Out || hit == GridValue.Snake)
             {
                 GameOver = true;
@@ -112,6 +127,28 @@
         {
             snakePositions.AddFirst(pos);
             Grid[pos.Row, pos.Column] = GridValue.Snake;
+        }
+
+        private Direction GetLastDirection()
+        {
+            if (dirChanges.Count == 0)
+            {
+                return Dir;
+            }
+
+            return dirChanges.Last.Value;
+        }
+
+        private bool CanChangeDirection(Direction newDir)
+        {
+            if (dirChanges.Count == 2)
+            {
+                return false;
+            }
+
+            Direction lastDir = GetLastDirection();
+
+            return newDir != lastDir && newDir != lastDir.Opposite();
         }
 
         private void RemoveTail()
