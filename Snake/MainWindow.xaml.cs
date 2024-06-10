@@ -17,10 +17,18 @@ namespace Snake
             {GridValue.Food, Images.Food },
         };
 
+        private readonly Dictionary<Direction, int> dirToRotations = new()
+        {
+            {Direction.Up, 0},
+            {Direction.Down, 180},
+            {Direction.Right, 180},
+            {Direction.Left, 270},
+        };
+
         private readonly int rows = 15;
         private readonly int columns = 15;
         private readonly Image[,] gridImages;
-        private readonly GameState gamestate;
+        private GameState gamestate;
         private bool gameRunning;
 
         public MainWindow()
@@ -56,6 +64,7 @@ namespace Snake
         private void Draw()
         {
             DrawGrid();
+            DrawSnakeHead();
             ScoreText.Text = $"SCORE {gamestate.Score}";
         }
 
@@ -71,11 +80,24 @@ namespace Snake
             }
         }
 
+        private void DrawSnakeHead()
+        {
+            Position headPos = gamestate.HeadPosition();
+            Image image = gridImages[headPos.Row, headPos.Column];
+            image.Source = Images.Head;
+
+            int rotation = dirToRotations[gamestate.Dir];
+            image.RenderTransform = new RotateTransform(rotation);
+        }
+
         private async Task RunGame()
         {
             Draw();
+            await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+            await ShowGameOver();
+            gamestate = new GameState(rows, columns);
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -126,6 +148,22 @@ namespace Snake
                 gamestate.Move();
                 Draw();
             }
+        }
+
+        private async Task ShowCountDown()
+        {
+            for (int i = 3; i >= 0; i--) 
+            {
+                OverlayText.Text = i.ToString();
+                await Task.Delay(500);
+            }
+        }
+
+        private async Task ShowGameOver()
+        {
+            await Task.Delay(100);
+            Overlay.Visibility = Visibility.Visible;
+            OverlayText.Text = "PRESS ANY KEY TO START";
         }
     }
 }
