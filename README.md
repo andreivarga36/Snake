@@ -1,7 +1,7 @@
 # Snake
   **Snake** is a small desktop application that allows users to play the classic Snake game. The goal is to guide the snake to eat the food displayed on the screen while avoiding collisions with the walls or its own body. The application is developed using C# and the .NET Framework, providing an intuitive graphical interface
   
-  ## Usage Instructions  
+  ## Usage Instructions
    **Start the Game**: The application opens with a game grid and an initialized snake in the center of the grid. Press any key to start the game.
 
    **Control the Snake**: Use the arrow keys (Up, Down, Left, Right) to control the snake's direction.
