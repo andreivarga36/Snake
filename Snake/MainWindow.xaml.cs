@@ -122,34 +122,49 @@ namespace Snake
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (Overlay.Visibility == Visibility.Visible)
+            if (IsOverlayVisible())
             {
                 e.Handled = true;
             }
 
             if (!gameRunning)
             {
-                gameRunning = true;
-                await RunGame();
-                gameRunning = false;
+                await StartNewGameAsync();
             }
         }
 
-        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private bool IsOverlayVisible()
+        {
+            return Overlay.Visibility == Visibility.Visible;
+        }
+
+        private async Task StartNewGameAsync()
+        {
+            gameRunning = true;
+            await RunGame();
+            gameRunning = false;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (gamestate.GameOver)
             {
                 return;
             }
 
-            switch (e.Key) 
+            ChangeSnakeDirection(e);
+        }
+
+        private void ChangeSnakeDirection(KeyEventArgs e)
+        {
+            switch (e.Key)
             {
                 case Key.Left:
-                    gamestate.ChangeDirection(Direction.Left); 
+                    gamestate.ChangeDirection(Direction.Left);
                     break;
 
                 case Key.Right:
-                    gamestate.ChangeDirection(Direction.Right); 
+                    gamestate.ChangeDirection(Direction.Right);
                     break;
                 case Key.Up:
                     gamestate.ChangeDirection(Direction.Up);
