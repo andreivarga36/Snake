@@ -26,3 +26,5 @@
 
  -![Start](Snake/Screenshots/InGame.jpg)
 
+ - For more screenshots, please visit [Screenshots](ScreenShots)
+
