@@ -145,6 +145,17 @@ namespace Snake
             gameRunning = false;
         }
 
+
+        private async Task GameLoop()
+        {
+            while (!gamestate.GameOver)
+            {
+                await Task.Delay(100);
+                gamestate.Move();
+                RenderGame();
+            }
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (gamestate.GameOver)
@@ -172,16 +183,6 @@ namespace Snake
                 case Key.Down:
                     gamestate.ChangeDirection(Direction.Down);
                     break;
-            }
-        }
-
-        private async Task GameLoop()
-        {
-            while (!gamestate.GameOver)
-            {
-                await Task.Delay(100);
-                gamestate.Move();
-                RenderGame();
             }
         }
 
