@@ -20,3 +20,6 @@
    - **System.Threading.Tasks**: The namespace used for working with asynchronous tasks.
    
    - **Code Analyzers**: Microsoft.CodeAnalysis.NetAnalyzers, Roslynator.Analyzers, SonarAnalyzer.CSharp for code analysis and quality improvement.
+
+#### Screenshots
+
