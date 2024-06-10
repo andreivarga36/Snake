@@ -21,7 +21,7 @@ namespace Snake
         {
             {Direction.Up, 0},
             {Direction.Down, 180},
-            {Direction.Right, 180},
+            {Direction.Right, 90},
             {Direction.Left, 270},
         };
 
@@ -34,41 +34,47 @@ namespace Snake
         public MainWindow()
         {
             InitializeComponent();
-            gridImages = SetupGrid();
+            gridImages = InitializeGameGrid();
             gamestate = new GameState(rows, columns);
         }
 
-        private Image[,] SetupGrid()
+        private Image[,] InitializeGameGrid()
         {
             Image[,] images = new Image[rows, columns];
             GameGrid.Rows = rows;
             GameGrid.Columns = columns;
 
+            InitializeGridImages(images);
+
+            return images;
+        }
+
+        private void InitializeGridImages(Image[,] images)
+        {
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < columns; c++)
                 {
                     Image image = new Image()
                     {
-                        Source = Images.Empty
+                        Source = Images.Empty,
+                        RenderTransformOrigin = new Point(0.5, 0.5)
                     };
 
                     images[r, c] = image;
                     GameGrid.Children.Add(image);
                 }
             }
-
-            return images;
         }
 
-        private void Draw()
+        private void RenderGame()
         {
-            DrawGrid();
-            DrawSnakeHead();
+            RenderGrid();
+            RenderSnakeHead();
             ScoreText.Text = $"SCORE {gamestate.Score}";
         }
 
-        private void DrawGrid()
+        private void RenderGrid()
         {
             for (int r = 0; r < rows; r++)
             {
@@ -76,11 +82,12 @@ namespace Snake
                 {
                     GridValue gridVal = gamestate.Grid[r, c];
                     gridImages[r, c].Source = gridValToImage[gridVal];
+                    gridImages[r, c].RenderTransform = Transform.Identity;
                 }
             }
         }
 
-        private void DrawSnakeHead()
+        private void RenderSnakeHead()
         {
             Position headPos = gamestate.HeadPosition();
             Image image = gridImages[headPos.Row, headPos.Column];
@@ -92,11 +99,11 @@ namespace Snake
 
         private async Task RunGame()
         {
-            Draw();
-            await ShowCountDown();
+            RenderGame();
+            await DisplayCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
-            await ShowGameOver();
+            await DisplayGameOverScreen();
             gamestate = new GameState(rows, columns);
         }
 
@@ -146,11 +153,11 @@ namespace Snake
             {
                 await Task.Delay(100);
                 gamestate.Move();
-                Draw();
+                RenderGame();
             }
         }
 
-        private async Task ShowCountDown()
+        private async Task DisplayCountDown()
         {
             for (int i = 3; i >= 0; i--) 
             {
@@ -159,7 +166,7 @@ namespace Snake
             }
         }
 
-        private async Task ShowGameOver()
+        private async Task DisplayGameOverScreen()
         {
             await Task.Delay(100);
             Overlay.Visibility = Visibility.Visible;
