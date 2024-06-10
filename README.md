@@ -28,3 +28,7 @@
 
  - For more screenshots, please visit [Screenshots](Snake/Screenshots)
 
+##### Documentation
+ - [WPF(Windows Presentation Foundation)](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-8.0)
+ - [Asynchronous Programming](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/)
+
