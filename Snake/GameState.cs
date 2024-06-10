@@ -2,15 +2,16 @@
 {
     public class GameState
     {
-        private readonly LinkedList<Position> snakePositions = new ();
+        private readonly LinkedList<Position> snakePositions = new();
         private readonly Random random = new();
-        private readonly LinkedList<Direction> dirChanges = new ();
+        private readonly LinkedList<Direction> dirChanges = new();
+        internal readonly GridValue[,] grid;
 
         public GameState(int rows, int columns)
         {
             Rows = rows;
             Columns = columns;
-            Grid = new GridValue[rows, columns];
+            grid = new GridValue[rows, columns];
             Dir = Direction.Right;
 
             AddSnake();
@@ -20,8 +21,6 @@
         public int Rows { get; }
 
         public int Columns { get; }
-
-        public GridValue[,] Grid { get; }
 
         public Direction Dir { get; private set; }
 
@@ -91,7 +90,7 @@
 
             for (int c = 1; c <= 3; c++)
             {
-                Grid[r, c] = GridValue.Snake;
+                grid[r, c] = GridValue.Snake;
                 snakePositions.AddFirst(new Position(r, c));
             }
         }
@@ -102,7 +101,7 @@
             {
                 for (int c = 0; c < Columns; c++)
                 {
-                    if (Grid[r, c] == GridValue.Empty)
+                    if (grid[r, c] == GridValue.Empty)
                     {
                         yield return new Position(r, c);
                     }
@@ -112,7 +111,7 @@
 
         private void AddFood()
         {
-            List<Position> emptyPositions = new (EmptyPositions());
+            List<Position> emptyPositions = new(EmptyPositions());
 
             if (emptyPositions.Count == 0)
             {
@@ -120,13 +119,13 @@
             }
 
             Position pos = emptyPositions[random.Next(emptyPositions.Count)];
-            Grid[pos.Row, pos.Column] = GridValue.Food;
+            grid[pos.Row, pos.Column] = GridValue.Food;
         }
 
         private void AddHead(Position pos)
         {
             snakePositions.AddFirst(pos);
-            Grid[pos.Row, pos.Column] = GridValue.Snake;
+            grid[pos.Row, pos.Column] = GridValue.Snake;
         }
 
         private Direction GetLastDirection()
@@ -154,16 +153,16 @@
         private void RemoveTail()
         {
             Position tail = snakePositions.Last!.Value;
-            Grid[tail.Row, tail.Column] = GridValue.Empty;
+            grid[tail.Row, tail.Column] = GridValue.Empty;
             snakePositions.RemoveLast();
         }
 
         private bool IsOut(Position pos)
         {
             return pos.Row < 0 ||
-                pos.Row >= Rows ||
-                pos.Column < 0 ||
-                pos.Column >= Columns;
+                   pos.Row >= Rows ||
+                   pos.Column < 0 ||
+                   pos.Column >= Columns;
         }
 
         private GridValue WillHit(Position newHeadPos)
@@ -178,7 +177,17 @@
                 return GridValue.Empty;
             }
 
-            return Grid[newHeadPos.Row, newHeadPos.Column];
+            return grid[newHeadPos.Row, newHeadPos.Column];
+        }
+
+        public GridValue GetGridValue(int row, int column)
+        {
+            return grid[row, column];
+        }
+
+        public void SetGridValue(int row, int column, GridValue value)
+        {
+            grid[row, column] = value;
         }
     }
 }

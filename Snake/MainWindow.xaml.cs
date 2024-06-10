@@ -80,7 +80,7 @@ namespace Snake
             {
                 for (int c = 0; c < columns; c++)
                 {
-                    GridValue gridVal = gamestate.Grid[r, c];
+                    GridValue gridVal = gamestate.grid[r, c];
                     gridImages[r, c].Source = gridValToImage[gridVal];
                     gridImages[r, c].RenderTransform = Transform.Identity;
                 }
@@ -182,7 +182,7 @@ namespace Snake
         private async Task DisplayGameOverScreen()
         {
             await RenderDeadSnake();
-            await Task.Delay(1000);
+            await Task.Delay(100);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "PRESS ANY KEY TO START";
         }
