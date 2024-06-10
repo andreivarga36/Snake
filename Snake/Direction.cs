@@ -39,6 +39,6 @@
             return HashCode.Combine(RowOffSet, ColumnOffSet);
         }
 
-        public Direction Opposite() => new Direction(-RowOffSet, -ColumnOffSet);
+        public Direction GetOppositeDirection() => new Direction(-RowOffSet, -ColumnOffSet);
     }
 }

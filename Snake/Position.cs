@@ -34,7 +34,7 @@
             return HashCode.Combine(Row, Column);
         }
 
-        public Position Translate(Direction dir)
+        public Position TranslateByDirection(Direction dir)
         {
             return new Position(Row + dir.RowOffSet, Column + dir.ColumnOffSet);
         }

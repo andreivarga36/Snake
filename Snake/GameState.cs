@@ -60,7 +60,7 @@
                 dirChanges.RemoveFirst();
             }
 
-            Position newHeadPos = HeadPosition().Translate(Dir);
+            Position newHeadPos = HeadPosition().TranslateByDirection(Dir);
             GridValue hit = WillHit(newHeadPos);
 
             HandleSnakeMovement(newHeadPos, hit);
@@ -148,7 +148,7 @@
 
             Direction lastDir = GetLastDirection();
 
-            return newDir != lastDir && newDir != lastDir.Opposite();
+            return newDir != lastDir && newDir != lastDir.GetOppositeDirection();
         }
 
         private void RemoveTail()
