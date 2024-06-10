@@ -25,8 +25,8 @@ namespace Snake
             {Direction.Left, 270},
         };
 
-        private readonly int rows = 15;
-        private readonly int columns = 15;
+        private readonly int rows = 25;
+        private readonly int columns = 25;
         private readonly Image[,] gridImages;
         private GameState gamestate;
         private bool gameRunning;
@@ -184,7 +184,7 @@ namespace Snake
             await RenderDeadSnake();
             await Task.Delay(100);
             Overlay.Visibility = Visibility.Visible;
-            OverlayText.Text = "PRESS ANY KEY TO START";
+            OverlayText.Text = "\tGAME OVER\nPRESS ANY KEY TO START";
         }
     }
 }
