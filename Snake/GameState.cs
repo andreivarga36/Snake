@@ -65,6 +65,16 @@
             HandleSnakeMovement(newHeadPos, hit);
         }
 
+        public GridValue GetGridValue(int row, int column)
+        {
+            return grid[row, column];
+        }
+
+        public void SetGridValue(int row, int column, GridValue value)
+        {
+            grid[row, column] = value;
+        }
+
         private void HandleSnakeMovement(Position newHeadPos, GridValue hit)
         {
             if (hit == GridValue.Out || hit == GridValue.Snake)
@@ -84,17 +94,6 @@
             }
         }
 
-        private void AddSnake()
-        {
-            int r = Rows / 2;
-
-            for (int c = 1; c <= 3; c++)
-            {
-                grid[r, c] = GridValue.Snake;
-                snakePositions.AddFirst(new Position(r, c));
-            }
-        }
-
         private IEnumerable<Position> EmptyPositions()
         {
             for (int r = 0; r < Rows; r++)
@@ -106,6 +105,17 @@
                         yield return new Position(r, c);
                     }
                 }
+            }
+        }
+
+        private void AddSnake()
+        {
+            int r = Rows / 2;
+
+            for (int c = 1; c <= 3; c++)
+            {
+                grid[r, c] = GridValue.Snake;
+                snakePositions.AddFirst(new Position(r, c));
             }
         }
 
@@ -178,16 +188,6 @@
             }
 
             return grid[newHeadPos.Row, newHeadPos.Column];
-        }
-
-        public GridValue GetGridValue(int row, int column)
-        {
-            return grid[row, column];
-        }
-
-        public void SetGridValue(int row, int column, GridValue value)
-        {
-            grid[row, column] = value;
         }
     }
 }
