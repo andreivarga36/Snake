@@ -55,7 +55,7 @@ namespace Snake
             {
                 for (int c = 0; c < columns; c++)
                 {
-                    Image image = new Image()
+                    Image image = new ()
                     {
                         Source = Images.Empty,
                         RenderTransformOrigin = new Point(0.5, 0.5)
