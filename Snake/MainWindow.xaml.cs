@@ -120,7 +120,7 @@ namespace Snake
             gamestate = new GameState(rows, columns);
         }
 
-        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        private async void WindowPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (IsOverlayVisible())
             {
@@ -156,14 +156,12 @@ namespace Snake
             }
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void WindowKeyDown(object sender, KeyEventArgs e)
         {
-            if (gamestate.GameOver)
+            if (!gamestate.GameOver)
             {
-                return;
+                ChangeSnakeDirection(e);
             }
-
-            ChangeSnakeDirection(e);
         }
 
         private void ChangeSnakeDirection(KeyEventArgs e)

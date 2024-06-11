@@ -12,8 +12,8 @@
         FontFamily="{StaticResource MainFont}"
         WindowStartupLocation="CenterScreen"
         Icon="Assets/icon.ico"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        KeyDown="Window_KeyDown">
+        PreviewKeyDown="WindowPreviewKeyDown"
+        KeyDown="WindowKeyDown">
     <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
